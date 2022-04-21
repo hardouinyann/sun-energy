@@ -1,0 +1,7 @@
+{
+  "name": "form-to-pdf",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
