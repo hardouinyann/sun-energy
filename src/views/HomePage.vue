@@ -68,59 +68,25 @@ const canGenerate = isChantierFormValid;//&& isInstallationFormValid && isPieces
 
 const onItemClicked = (tile: HomeTile) => ionRouter.push(tile.url);
 
-
 const generatePDF = async () => {
     const doc = new jsPDF();
-    //console.log('El :', template.value?.$el.outerHTML.toString())
-    
-   /*  const canvas = document.createElement("canvas");
-    // ctx.canvas.width = 100;
-    // ctx.canvas.height = 100;
-    const img = new Image();
-    img.src = store.annexes.photos.emplacement!;
-    img.onload = function(){
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d")!;
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-        console.log(img.height);
-            
-
-        const canvasImg = canvas.toDataURL();
-
-        document.getElementById('test')?.appendChild(canvas);
-        */ //document.getElementById('test')?.appendChild(img);
-
-        doc.html(template.value!.$el.outerHTML, {
-            callback: async (doc) => {
-                const res = await getPhotoFromB64(store.annexes.photos.emplacement);
-                //doc.addPage();
-                //doc.addImage(store.annexes.photos.emplacement , "PNG", 0, 200, res.width/8, res.height/8);
-                doc.addImage(res.img , "PNG", 0, 100, res.width/8, res.height/8);
-                doc.save()
-            },
-            // image: {
-            //     type: 'jpeg',
-            //     quality: 90,
-            // }
-        });
-    };
+    doc.html(template.value!.$el.outerHTML, {
+        callback: async (doc) => {
+            doc.save()
+        },
+    });
+};
 
 const getPhotoFromB64 = (b64: string): Promise<{img: string, width: number, height: number, ratio: number }> => {
     return new Promise((resolve) => {
 
         const canvas = document.createElement("canvas");
-        // ctx.canvas.width = 100;
-        // ctx.canvas.height = 100;
         const img = new Image();
         img.src = b64;
         img.onload = function(){
-            console.log('img ', img.height, img.width);
             canvas.width = img.width;
             canvas.height = img.height;
             const ctx = canvas.getContext("2d")!;
-            ctx.canvas.width = img.width;
-            ctx.canvas.height = img.height;
             ctx.drawImage(img, 0, 0, img.width, img.height);
             resolve({
                 img: canvas.toDataURL(),

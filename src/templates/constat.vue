@@ -4,6 +4,10 @@
             <div class="section-title">
                 Client
             </div>
+            <div>{{ fullName }}</div>
+            <div>{{ clientForm.client.mail }}</div>
+            <div>{{ clientForm.client.tel }}</div>
+            <div>{{ clientForm.client.address?.address + ', ' + clientForm.client.address?.city }}</div>
             <div class="section-title">
                 Installation
             </div>
@@ -22,7 +26,8 @@ import { computed } from 'vue';
 
 const store = useStore();
 const emplacementPhoto = computed(() => store.annexes.photos.emplacement);
-console.log('Photo', emplacementPhoto?.value?.length);
+const clientForm = computed(() => store.getFormChantierClient);
+const fullName = computed(() => clientForm.value.client.prenom + ' ' + clientForm.value.client.nom);
 </script>
 
 <style lang="scss" scoped>
@@ -54,10 +59,7 @@ console.log('Photo', emplacementPhoto?.value?.length);
 }
 
 img {
-    width: 200px;
-    height: 130px;
-    min-width: 200px;
-    min-height: 130px;
     z-index: 9999;
+    max-width: 30%;
 }
 </style>
