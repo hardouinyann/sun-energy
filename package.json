@@ -22,6 +22,7 @@
     "@ionic/vue": "^6.0.0",
     "@ionic/vue-router": "^6.0.0",
     "core-js": "^3.6.5",
+    "jspdf": "^2.5.1",
     "pinia": "^2.0.13",
     "sass-loader": "^12.6.0",
     "validator": "^13.7.0",

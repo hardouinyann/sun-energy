@@ -2,14 +2,16 @@
     <ion-page>
         <se-header />
         <ion-content>
-            <div class="home__container ion-padding">
+            <div id="test" class="home__container ion-padding">
                 <ion-item v-for="(item, index) in homeTiles" class="home__tile" lines="none" @click="onItemClicked(item)" :key="index">
                     <ion-icon :icon="item.icon"/>
                     <ion-label>{{ item.label }}</ion-label>
                     <ion-icon v-if="item.isValid.value" :icon="checkmark" slot="end"/>
                 </ion-item>
-            </div>  
-            <ion-button expand="full" size="large" :disabled="!canGenerate">Génerer le PDF</ion-button>            
+            </div>
+            <constat ref="template" /> 
+            <!-- <ion-button expand="full" size="large" :disabled="!canGenerate">Génerer le PDF</ion-button>             -->
+            <ion-button expand="full" size="large" @click="generatePDF()">Génerer le PDF</ion-button>    
         </ion-content>
     </ion-page>
 </template>
@@ -17,9 +19,12 @@
 <script setup lang="ts">
 import { construct, mail, checkmark, camera } from 'ionicons/icons';
 import { useIonRouter } from '@ionic/vue';
-import { computed } from 'vue';
+import { computed, Ref, ref } from 'vue';
 import { useStore } from '@/hooks/store';
-import { isChantierValid } from '@/utils/valdiators';
+import { isChantierValid, isInstallationValid } from '@/utils/valdiators';
+import { jsPDF } from "jspdf";
+import constat from '@/templates/constat.vue';
+
 
 export interface HomeTile {
     url: string;
@@ -32,13 +37,11 @@ export type HomeTiles = HomeTile[];
 
 const ionRouter = useIonRouter();
 const store = useStore();
-const isChantierFormValid = computed(() => {
-    const isValid = isChantierValid(store.getFormChantierClient);
-    console.log('Is valid: ', isValid);
-    return isValid;
-});
-const isInstallationFormValid = computed(() => false);
-const isPiecesJointesFormValid = computed(() => false);
+const template: Ref<InstanceType<typeof constat> | null> = ref(null);
+const isChantierFormValid = computed(() => isChantierValid(store.getFormChantierClient));
+const isInstallationFormValid = computed(() => isInstallationValid(store.getFormInstallation));
+const isPiecesJointesFormValid = computed(() => true);
+const emplacementPhoto = computed(() => store.annexes.photos.emplacement);
 
 const homeTiles: HomeTiles = [
     {
@@ -54,9 +57,9 @@ const homeTiles: HomeTiles = [
         isValid: isInstallationFormValid,
     },
     {
-        url: '/pieces-jointes',
+        url: '/annexes',
         icon: camera,
-        label: 'Pièces jointes',
+        label: 'Annexes',
         isValid: isPiecesJointesFormValid,
     },
 ];
@@ -64,6 +67,70 @@ const homeTiles: HomeTiles = [
 const canGenerate = isChantierFormValid;//&& isInstallationFormValid && isPiecesJointesFormValid;
 
 const onItemClicked = (tile: HomeTile) => ionRouter.push(tile.url);
+
+
+const generatePDF = async () => {
+    const doc = new jsPDF();
+    //console.log('El :', template.value?.$el.outerHTML.toString())
+    
+   /*  const canvas = document.createElement("canvas");
+    // ctx.canvas.width = 100;
+    // ctx.canvas.height = 100;
+    const img = new Image();
+    img.src = store.annexes.photos.emplacement!;
+    img.onload = function(){
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d")!;
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        console.log(img.height);
+            
+
+        const canvasImg = canvas.toDataURL();
+
+        document.getElementById('test')?.appendChild(canvas);
+        */ //document.getElementById('test')?.appendChild(img);
+
+        doc.html(template.value!.$el.outerHTML, {
+            callback: async (doc) => {
+                const res = await getPhotoFromB64(store.annexes.photos.emplacement);
+                //doc.addPage();
+                //doc.addImage(store.annexes.photos.emplacement , "PNG", 0, 200, res.width/8, res.height/8);
+                doc.addImage(res.img , "PNG", 0, 100, res.width/8, res.height/8);
+                doc.save()
+            },
+            // image: {
+            //     type: 'jpeg',
+            //     quality: 90,
+            // }
+        });
+    };
+
+const getPhotoFromB64 = (b64: string): Promise<{img: string, width: number, height: number, ratio: number }> => {
+    return new Promise((resolve) => {
+
+        const canvas = document.createElement("canvas");
+        // ctx.canvas.width = 100;
+        // ctx.canvas.height = 100;
+        const img = new Image();
+        img.src = b64;
+        img.onload = function(){
+            console.log('img ', img.height, img.width);
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext("2d")!;
+            ctx.canvas.width = img.width;
+            ctx.canvas.height = img.height;
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+            resolve({
+                img: canvas.toDataURL(),
+                width: img.width,
+                height: img.height,
+                ratio: img.width/img.height,
+            });
+        };
+    });
+}
 </script>
 
 <style lang="scss" scoped>

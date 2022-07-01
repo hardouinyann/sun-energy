@@ -9,7 +9,7 @@ import Input from '@/components/Input.vue';
 import Button from '@/components/Button.vue';
 import InputWrapper from '@/components/InputWrapper.vue';
 import Select from '@/components/Select.vue';
-import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonicVue, IonInput, IonItem, IonLabel, IonList, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/vue';
+import { IonBackButton, IonButton, IonButtons, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonicVue, IonInput, IonItem, IonLabel, IonList, IonPage, IonRow, IonSelect, IonSelectOption, IonTitle, IonToolbar } from '@ionic/vue';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/vue/css/core.css';
@@ -42,6 +42,8 @@ app.component('ion-input', IonInput)
     .component('ion-page', IonPage)
     .component('ion-item', IonItem)
     .component('ion-icon', IonIcon)
+    .component('ion-select', IonSelect)
+    .component('ion-select-option', IonSelectOption)
     .component('ion-button', IonButton)
     .component('ion-grid', IonGrid)
     .component('ion-row', IonRow)

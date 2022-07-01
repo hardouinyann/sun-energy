@@ -18,6 +18,10 @@ const routes: Array<RouteRecordRaw> = [
         path: '/installation',
         component: () => import('../views/Installation.vue')
     },
+    {
+        path: '/annexes',
+        component: () => import('../views/Annexes.vue')
+    },
 ]
 
 const router = createRouter({

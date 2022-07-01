@@ -134,6 +134,11 @@ http://ionicframework.com/docs/theming/ */
         width: 100%;
         z-index: 2;
     }
+
+    @font-face {
+        font-family: "Nunito";
+        src: url('/public/assets/fonts/Nunito_Sans/NunitoSans-Regular.ttf') format("truetype");
+    }
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,10 +1,10 @@
 <template>
     <ion-header color="primary">
         <ion-toolbar>
-            <ion-buttons slot="start" v-if="ionRouter.canGoBack() && !isHome">
+            <ion-buttons slot="start" v-if="(ionRouter.canGoBack() && !isHome) || !isHome">
                 <ion-back-button default-href="home"></ion-back-button>
             </ion-buttons>
-            <ion-title color="primary"> {{ title }}</ion-title>
+            <ion-title color="primary">{{ title }}</ion-title>
         </ion-toolbar>
     </ion-header>
 </template>
@@ -35,7 +35,7 @@ watch(() => route.fullPath, val => isHome.value = val === '/home', { immediate: 
 
         ion-title {
             color: white;
-            font-size: 20px;
+            font-size: 17px;
         }
 
         ion-back-button {

@@ -1,13 +1,17 @@
-import { InputProps } from "@/models/input";
 import { InputWrapperExposed } from "@/models/input-wrapper";
 import { computed, ComputedRef, getCurrentInstance, nextTick, onMounted, Ref, ref } from "vue";
 
-export const useInput = (props: InputProps, emits: { (e: 'update:modelValue', value: string | number ): void }) => {
+export interface UseInputProps {
+    modelValue?: string | number;
+    validator?: (model?: string | number) => boolean;
+    required?: boolean;
+}
+export const useInput = (props: UseInputProps, emits: { (e: 'update:modelValue', value: string | number ): void }) => {
     const inputUuid = getCurrentInstance()?.uid || Date.now();
     
     const parent: Ref<InputWrapperExposed> = ref(getCurrentInstance()?.parent?.exposed) as Ref<InputWrapperExposed>;
     
-    const isInputValid = computed(() => props.validator?.(props.modelValue) ?? Boolean(props.modelValue));
+    const isInputValid = computed(() => props.validator?.(props?.modelValue) ?? Boolean(props.modelValue));
     const borderColor: ComputedRef<string> = computed(() => isInputValid.value ? 'var(--ion-color-success)' : 'var(--ion-color-danger)');
     
     const updateValue = (event: CustomEvent) => {

@@ -1,36 +1,36 @@
 export interface Installation {
-    toiture: Toiture;
-    couverture: Couverture;
-    inclinaison: number;
-    longueurGourdiere: number; //en cm ? ???????
-    orientation: TypeOrientation;
-    puissanceKit: number; // en kw/h
-    hauteurGoutiere: number; // en m ?
-    hauteurRampants: number; // ???????
-    implantation: TypeImplantation;
-    nbPanneaux: number; // entier
-    distributeur: string; // Liste à prévoir ? EDF / ENI / ENGIE ....
-    alimentation: TypeAlimentation;
-    puissanceSouscrie: number; // 3 / 6 / 9 / 12
-    compteur: TypeCompteur;
+    toiture?: Toiture;
+    couverture?: Couverture;
+    inclinaison?: number;
+    longueurGouttiere?: number; //en cm ? ???????
+    orientation?: TypeOrientation;
+    puissanceKit?: number; // en kw/h
+    hauteurGouttiere?: number; // en m ?
+    hauteurRempants?: number; // ???????
+    implantation?: TypeImplantation;
+    nbPanneaux?: number; // entier
+    distributeur?: string; // Liste à prévoir ? EDF / ENI / ENGIE ....
+    alimentation?: TypeAlimentation;
+    puissanceSouscrite?: number; // 3 / 6 / 9 / 12
+    compteur?: TypeCompteur;
 }
 
 export interface Toiture {
-    type: TypeToiture;
-    etat: TypeEtat;
+    type?: TypeToiture;
+    etat?: TypeEtat;
 }
 
 export interface Couverture {
-    couverture: TypeCouverture;
-    couvertureAutre?: string;
-    etat: TypeEtat;
+    type?: TypeCouverture;
+    typeAutre?: string;
+    etat?: TypeEtat;
 }
 
 export enum TypeToiture {
     TRAD = 'Charpente traditionnelle',
     INDUS = 'Charpente industriellle',
     METAL = 'Charpente métallique',
-    TERR = 'Terrasse',
+    TERRASSE = 'Terrasse',
 }
 
 export enum TypeCouverture {
@@ -49,11 +49,12 @@ export enum TypeEtat {
 }
 
 export enum TypeOrientation {
-    E = 'Est',
-    SE = 'Sud-est',
-    S = 'Sud',
-    O = 'Ouest',
+    EST = 'Est',
+    'SUD-EST' = 'Sud-est',
+    SUD = 'Sud',
+    OUEST = 'Ouest',
 }
+
 
 export enum TypeImplantation {
     PORTRAIT = 'Portrait',
@@ -69,4 +70,11 @@ export enum TypeCompteur {
     LINKY = 'Linky',
     ELEC = 'Eléctronique',
     DISC = 'Disc'
+}
+
+export const TypePuissanceSouscrite = {
+    3: '3',
+    6: '6',
+    9: '9',
+    12: '12',
 }

@@ -4,7 +4,10 @@
             <ion-icon :icon="icon" v-if="icon" />
             <span :class="[{ 'no-margin': !icon }]">{{ label }}</span>
         </ion-label>
-        <ion-input :value="modelValue" @ionChange="updateValue($event)" :type="type"/>
+        <ion-input :value="modelValue" @ionChange="updateValue($event)" :type="type" :step="step" :min="min" :max="max" />
+        <div slot="end" class="se-input__text-end" v-if="suffix || true">
+            <strong>{{ suffix }}</strong>
+        </div>
     </ion-item>
 </template>
 
@@ -16,11 +19,13 @@ interface InputProps {
     modelValue?: string | number;
     icon?: string;
     label: string;
+    suffix?: string;
     required?: boolean;
     validator?: (model?: string | number) => boolean;
     type?: string;
     min?: number;
     max?: number;
+    step?: string;
     minLength?: number;
     maxLength?: number;
 }
@@ -54,6 +59,12 @@ ion-item.se-input-item {
         span:not(.no-margin) {
             margin-left: 10px;            
         }
+    }
+
+    .se-input__text-end {
+        margin: auto;
+        top: 0;
+        bottom: 0;
     }
 }
 

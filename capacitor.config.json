@@ -1,1 +1,9 @@
-{}
+{
+    "appId": "fr.sun.energy",
+    "appName": "SunEnergy",
+    "webDir": "dist",
+    "bundledWebRuntime": false,
+    "ios": {
+        "scheme": "SunEnergy"
+    }
+}
